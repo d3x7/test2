@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>BOX TOWER</title>
+        <link rel="stylesheet" href="css/reset.css" type="text/css">
+        <link rel="stylesheet" href="css/main.css" type="text/css">
+        <link rel="stylesheet" href="css/orientation_utils.css" type="text/css">
+        <link rel="stylesheet" href="css/ios_fullscreen.css" type="text/css">
+        <link rel='shortcut icon' type='image/x-icon' href='favicon.ico'>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,minimal-ui">
+        <meta name="msapplication-tap-highlight" content="no">
+
+        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="js/createjs.min.js"></script>
+        <script type="text/javascript" src="js/howler.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+
+
+   <script>
+     function getCookie(name) {
+  let matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+  ));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+function setCookie(name, value, options = {}) {
+  options = {
+    path: '/',
+    expires: getDateTime().getDate() + 90
+  };
+
+  if (options.expires instanceof Date) {
+    options.expires = options.expires.toUTCString();
+  }
+
+  let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+  for (let optionKey in options) {
+    updatedCookie += "; " + optionKey;
+    let optionValue = options[optionKey];
+    if (optionValue !== true) {
+      updatedCookie += "=" + optionValue;
+    }
+  }
+
+  document.cookie = updatedCookie;
+}
+
+function deleteCookie(name) {
+  setCookie(name, "", {
+    'max-age': -1
+  })
+}
+   </script>
+
+
+
+   <style>
+    @import url('../css2');
+    body{position:relative}
+  #messages{position:fixed;top:12px;left:0;right:0;margin:0 auto;max-width:320px; display:flex;flex-direction:column;justify-content: center;z-index:999999999999;}
+  #messages div{font-family:'Montserrat',sans-serif;background:white;box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.25);margin-bottom:12px;border-radius:10px;font-size:12px;padding:12px;width:auto;display:flex;align-items:center;color:black;}
+  #messages div img{height:16px;margin-right:10px;}
+</style>
+
+<script>
+      setInterval(()=>{
+
+    $.ajax({
+      url: "https://www.facesbot.ru/balance.php", // указываем URL обработчика
+      method: "POST", // метод передачи данных
+      data: {uid: getCookie('uid')}, // данные, которые нужно отправить на сервер
+      success: function(response) {
+         // console.log(response); // выводим ответ сервера в консоль
+
+
+
+
+          document.querySelector('#messages').insertAdjacentHTML('beforeend','<div id="notifyEarn" style=""><img src="/assets/png/ref.png" alt="SHIBA" title="SHIBA">Вы заработали '+(108.333333333 / 30).toFixed(2)+' SHIBA COIN ('+((108.333333333 / 30)*7.2).toFixed(2)+' ₽)</div>');
+
+          setTimeout(() => document.querySelector('#notifyEarn').remove(), 5000);
+
+      }
+    });
+
+
+
+
+ },120000); //120000
+
+
+
+
+</script>
+    </head>
+    <body ondragstart="return false;" ondrop="return false;">
+          <div id="messages"></div>
+    <a href="../index.htm#games" title="Вернуться" style="font-family:'Montserrat',sans-serif;font-size:12px;display:flex;align-items:center;white-space:nowrap;background:white;color:black;text-decoration:none;position:absolute;top:16px;left:12px;z-index:1000;height:32px;line-height:32px;padding:0 16px 0 10px;border-radius:10px;box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.25);"><img style="height:8px;transform:rotate(90deg);margin-right:6px;" src="../assets/svg/arrow_down.svg" alt="" title="">Вернуться в игры</a>
+
+        
+        <div style="position: fixed; background-color: transparent; top: 0px; left: 0px; width: 100%; height: 100%"></div>
+        <script>
+            $(document).ready(function () {
+                var oMain = new CMain({
+                    stack_velocity: 15, //SUBTRACT THIS SCORE EVERY FAILED LAUNCH
+                    audio_enable_on_startup:false, //ENABLE/DISABLE AUDIO WHEN GAME STARTS 
+                    fullscreen: true, //SET THIS TO FALSE IF YOU DON'T WANT TO SHOW FULLSCREEN BUTTON
+                    check_orientation:true,     //SET TO FALSE IF YOU DON'T WANT TO SHOW ORIENTATION ALERT ON MOBILE DEVICES
+                    num_levels_for_ads: 2 //NUMBER OF TURNS PLAYED BEFORE AD SHOWING //
+                            //////// THIS FEATURE  IS ACTIVATED ONLY WITH CTL ARCADE PLUGIN./////////////////////////// 
+                            /////////////////// YOU CAN GET IT AT: ///////////////////////////////////////////////////////// 
+                            // http://codecanyon.net/item/ctl-arcade-wordpress-plugin/13856421///////////
+                });
+                $(oMain).on("start_session", function (evt) {
+                    if (getParamValue('ctl-arcade') === "true") {
+                        parent.__ctlArcadeStartSession();
+                    }
+                });
+
+                $(oMain).on("end_session", function (evt) {
+                    if (getParamValue('ctl-arcade') === "true") {
+                        parent.__ctlArcadeEndSession();
+                    }
+                });
+
+                $(oMain).on("start_level", function (evt, iLevel) {
+                    if (getParamValue('ctl-arcade') === "true") {
+                        parent.__ctlArcadeStartLevel({level: iLevel});
+                    }
+                });
+
+                $(oMain).on("restart_level", function (evt, iLevel) {
+                    if (getParamValue('ctl-arcade') === "true") {
+                        parent.__ctlArcadeRestartLevel({level: iLevel});
+                    }
+                });
+
+                $(oMain).on("end_level", function (evt, iLevel) {
+                    if (getParamValue('ctl-arcade') === "true") {
+                        parent.__ctlArcadeEndLevel({level: iLevel});
+                    }
+                });
+
+                $(oMain).on("save_score", function (evt, iScore, szMode) {
+                    if (getParamValue('ctl-arcade') === "true") {
+                        parent.__ctlArcadeSaveScore({score: iScore, mode: szMode});
+                    }
+                });
+
+                $(oMain).on("show_interlevel_ad", function (evt) {
+                    if (getParamValue('ctl-arcade') === "true") {
+                        parent.__ctlArcadeShowInterlevelAD();
+                    }
+                });
+
+                $(oMain).on("share_event", function (evt, iScore) {
+                    if (getParamValue('ctl-arcade') === "true") {
+                        parent.__ctlArcadeShareEvent({img: TEXT_SHARE_IMAGE,
+                            title: TEXT_SHARE_TITLE,
+                            msg: TEXT_SHARE_MSG1 + iScore + TEXT_SHARE_MSG2,
+                            msg_share: TEXT_SHARE_SHARE1 + iScore + TEXT_SHARE_SHARE1});
+                    }
+                });
+
+
+                if (isIOS()) {
+                    setTimeout(function () {
+                        sizeHandler();
+                    }, 200);
+                } else {
+                    sizeHandler();
+                }
+            });
+
+        </script>
+        
+        <div class="check-fonts">
+            <p class="check-font-1">test 1</p>
+        </div> 
+        
+        <canvas id="canvas" class='ani_hack' width="840" height="1360"> </canvas>
+        <div data-orientation="portrait" class="orientation-msg-container"><p class="orientation-msg-text">Please rotate your device</p></div>
+        <div id="block_game" style="position: fixed; background-color: transparent; top: 0px; left: 0px; width: 100%; height: 100%; display:none"></div>
+
+
+
+
+    </body>
+</html>

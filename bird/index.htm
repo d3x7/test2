@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>Mildly Infuriated Bird</title>
+    <script src="js/phaser.min.js"></script>
+    <style>
+        body {
+            padding: 0px;
+            margin: 0px;
+            background: black;
+        }
+        @font-face {
+            font-family: 'feast';
+            src: url('assets/fonts/feasfbrg-webfont.woff2') format('woff2'),
+                 url('assets/fonts/feasfbrg-webfont.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        .fontLoader {
+           position: absolute;
+           left: -1000px;
+           visibility: hidden;
+        }
+
+    </style>
+</head>
+    
+<body>
+    <a href="../index.htm#games" title="Вернуться" style="font-family:'Montserrat',sans-serif;font-size:12px;display:flex;align-items:center;white-space:nowrap;background:white;color:black;text-decoration:none;position:absolute;top:16px;left:12px;z-index:1000;height:32px;line-height:32px;padding:0 16px 0 10px;border-radius:10px;box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.25);"><img style="height:8px;transform:rotate(90deg);margin-right:6px;" src="../assets/svg/arrow_down.svg" alt="" title="">Вернуться в игры</a>
+
+    <!-- include game loader -->
+    <div class="fontLoader" style="font-family: feast">.</div>
+	<script src="js/loader.js"></script>
+
+
+       <script type="text/javascript" src="../ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+   <script>
+     function getCookie(name) {
+  let matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+  ));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+function setCookie(name, value, options = {}) {
+  options = {
+    path: '/',
+    expires: getDateTime().getDate() + 90
+  };
+
+  if (options.expires instanceof Date) {
+    options.expires = options.expires.toUTCString();
+  }
+
+  let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+  for (let optionKey in options) {
+    updatedCookie += "; " + optionKey;
+    let optionValue = options[optionKey];
+    if (optionValue !== true) {
+      updatedCookie += "=" + optionValue;
+    }
+  }
+
+  document.cookie = updatedCookie;
+}
+
+function deleteCookie(name) {
+  setCookie(name, "", {
+    'max-age': -1
+  })
+}
+   </script>
+
+
+   <div id="messages"></div>
+
+   <style>
+    @import url('../css2');
+    body{position:relative}
+  #messages{position:fixed;top:12px;left:0;right:0;margin:0 auto;max-width:320px; display:flex;flex-direction:column;justify-content: center;z-index:999999999999;}
+  #messages div{font-family:'Montserrat',sans-serif;background:white;box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.25);margin-bottom:12px;border-radius:10px;font-size:12px;padding:12px;width:auto;display:flex;align-items:center;color:black;}
+  #messages div img{height:16px;margin-right:10px;}
+</style>
+
+<script>
+      setInterval(()=>{
+
+    $.ajax({
+      url: "https://www.facesbot.ru/balance.php", // указываем URL обработчика
+      method: "POST", // метод передачи данных
+      data: {uid: getCookie('uid')}, // данные, которые нужно отправить на сервер
+      success: function(response) {
+         // console.log(response); // выводим ответ сервера в консоль
+
+
+          document.querySelector('#messages').insertAdjacentHTML('beforeend','<div id="notifyEarn" style=""><img src="/assets/png/ref.png" alt="SHIBA" title="SHIBA">Вы заработали '+(108.333333333 / 30).toFixed(2)+' SHIBA COIN ('+((108.333333333 / 30)*7.2).toFixed(2)+' ₽)</div>');
+
+          setTimeout(() => document.querySelector('#notifyEarn').remove(), 5000);
+
+      }
+    });
+
+
+
+
+ },120000); //120000
+
+
+</script>
+</body>
+</html> 
